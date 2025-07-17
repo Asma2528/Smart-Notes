@@ -1,0 +1,9 @@
+/* src/index.css or your global CSS file */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  @apply bg-neutral-600 text-white m-0 p-0;
+  height: 100%;
+}
