@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import notesContext from "../context/Notes/NotesContext";
 
-export default function AddNoteItem() {
+export default function AddNoteItem(props) {
   const context = useContext(notesContext);
   const { addNote } = context;
 
@@ -18,16 +18,19 @@ export default function AddNoteItem() {
   const handleClick = (e) => {
     e.preventDefault();
 
- const tagArray = note.tag.split(",").map((tag) => tag.trim()).filter(Boolean);
+    const tagArray = note.tag.split(",").map((tag) => tag.trim()).filter(Boolean);
 
 
-  addNote({
-    title: note.title,
-    description: note.description,
-    tag: tagArray
-  });
-
+    addNote({
+      title: note.title,
+      description: note.description,
+      tag: tagArray
+    });
+    
     setNote({ title: "", description: "", tag: "" }); // Reset form
+    props.setAlert({ message: "Note added!", type: "Success" });
+
+    props.fetchNotes(); 
   };
 
   return (
@@ -38,6 +41,7 @@ export default function AddNoteItem() {
           name="title"
           placeholder="Title"
           value={note.title}
+          required
           onChange={handleChange}
           className="w-full p-2 text-sm rounded-md border-2 border-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:bg-neutral-700 dark:text-white dark:border-neutral-600"
         />
@@ -46,6 +50,8 @@ export default function AddNoteItem() {
           rows="4"
           name="description"
           placeholder="Description"
+          minLength="5"
+          required
           value={note.description}
           onChange={handleChange}
           className="w-full p-2 text-sm rounded-md border-2 border-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:bg-neutral-700 dark:text-white dark:border-neutral-600"
@@ -56,6 +62,7 @@ export default function AddNoteItem() {
           name="tag"
           placeholder="Tags (comma separated)"
           value={note.tag}
+          required
           onChange={handleChange}
           className="w-full p-2 text-sm rounded-md border-2 border-cyan-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 dark:bg-neutral-700 dark:text-white dark:border-neutral-600"
         />

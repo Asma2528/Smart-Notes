@@ -1,10 +1,16 @@
-import React from 'react'
 
-function Alert() {
+
+function Alert(props) {
+      if (!props.message) return null;
+
+    setTimeout(() => {
+        document.querySelector('.alert').style.display = 'none';
+    }, 3000);
+
     return (
-        <div>
-            <div class="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300" role="alert">
-                <span class="font-medium">Warning alert!</span> Change a few things up and try submitting again.
+        <div className="alert flex items-center justify-center mt-2">
+            <div className="w-64 p-3 text-sm text-amber-500 rounded-lg bg-amber-50 dark:bg-neutral-700 dark:text-amber-400" role="alert">
+                <span className="font-medium">{props.type}!</span> {props.message}
             </div>
         </div>
     )
