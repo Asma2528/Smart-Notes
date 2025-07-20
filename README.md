@@ -17,3 +17,11 @@ Node.js + Express
 MongoDB + Mongoose
 JWT Authentication
 
+
+Smart notes -
+Pin notes
+archive notes
+trash notes
+reminder
+labels
+

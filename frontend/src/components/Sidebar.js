@@ -17,16 +17,16 @@ function Sidebar({ isOpen, onClose }) {
 
       {/* Sidebar */}
     <aside
-  className={`fixed top-0 left-0 h-full w-36 bg-white dark:bg-neutral-900 shadow-lg z-50 transform transition-transform duration-300 ${
+  className={`fixed top-0 left-0 h-full w-36 bg-amber-50 dark:bg-neutral-900 shadow-lg z-50 transform transition-transform duration-300 ${
     isOpen ? "translate-x-0" : "-translate-x-full"
   }`}
 >
   <div className="p-2 pt-20 overflow-y-auto h-full">
-    <ul className="text-gray-800 dark:text-white space-y-2">
+    <ul className="text-black dark:text-white space-y-2">
       <li>
         <a
           href="/"
-          className="flex items-center gap-3 px-3 py-2 rounded-2xl hover:bg-orange-200 dark:hover:bg-amber-300"
+          className="flex items-center gap-3 px-3 py-2 rounded-2xl hover:bg-amber-200 dark:hover:bg-amber-300"
         >
           <FaRegStickyNote />
           Notes

@@ -105,7 +105,7 @@ const navigate = useNavigate();
 
 
         {/* Right Side - Form */}
-        <div className="md:w-1/3 w-full bg-white dark:bg-neutral-800 rounded-lg shadow-md p-6 sm:p-8">
+        <div className="md:w-1/3 w-full bg-amber-200 dark:bg-neutral-800 rounded-lg shadow-md p-6 sm:p-8">
           <h2 className="text-2xl font-semibold text-neutral-900 dark:text-white mb-6">Register your account</h2>
           <form className="space-y-5">
             <div>
@@ -159,7 +159,7 @@ const navigate = useNavigate();
             <button
               type="submit"
               onClick={handleRegister}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-md text-sm font-medium focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
+              className="w-full bg-amber-500 hover:bg-amber-600 dark:bg-cyan-600 dark:hover:bg-cyan-700 text-white py-2.5 rounded-md text-sm font-medium focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
             >
               Sign Up
             </button>
