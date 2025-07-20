@@ -9,6 +9,8 @@ import ForgetPassword from './components/ForgetPassword';
 import Alert from './components/Alert';
 import { useState } from 'react';
 import ThemeState from './context/Themes/ThemeState';
+import ArchiveNotes from './components/ArchiveNotes';
+import TrashNotes from './components/TrashNotes';
 
 function App() {
   const [alert, setAlert] = useState({ message: '', type: '' });
@@ -18,14 +20,16 @@ function App() {
       <Router>
         <NotesState>
           <ThemeState>
-          <Navbar setAlert={setAlert}/>
-          <Alert message={alert.message} type={alert.type} clearAlert={clearAlert} />
-          <Routes>
-            <Route path="/" element={<Home  setAlert={setAlert}/>} />
-            <Route path="/login" element={<Login setAlert={setAlert} />} />
-            <Route path="/register" element={<Register setAlert={setAlert} />} />
-            <Route path="/forget-password" element={<ForgetPassword setAlert={setAlert} />} />
-          </Routes>
+            <Navbar setAlert={setAlert} />
+            <Alert message={alert.message} type={alert.type} clearAlert={clearAlert} />
+            <Routes>
+              <Route path="/" element={<Home setAlert={setAlert} />} />
+              <Route path="/login" element={<Login setAlert={setAlert} />} />
+              <Route path="/register" element={<Register setAlert={setAlert} />} />
+              <Route path="/forget-password" element={<ForgetPassword setAlert={setAlert} />} />
+              <Route path="/archive-notes" element={<ArchiveNotes setAlert={setAlert} />} />
+              <Route path="/trash-notes" element={<TrashNotes setAlert={setAlert} />} />
+            </Routes>
           </ThemeState>
         </NotesState>
       </Router>

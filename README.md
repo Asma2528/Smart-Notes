@@ -19,9 +19,7 @@ JWT Authentication
 
 
 Smart notes -
-Pin notes
-archive notes
-trash notes
 reminder
 labels
+empty bin
 

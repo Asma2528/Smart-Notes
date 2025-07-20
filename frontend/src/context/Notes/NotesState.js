@@ -33,6 +33,32 @@ const NotesState = (props) => {
         setNotes(json);
     };
 
+      const fetchArchivedNotes = async () => {
+        const response = await fetch(`${host}/api/notes/fetch-archived-notes`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': localStorage.getItem('token')
+            }
+        });
+        const json = await response.json();
+        setNotes(json);
+    };
+
+
+      const fetchTrashNotes = async () => {
+        const response = await fetch(`${host}/api/notes/fetch-trash-notes`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': localStorage.getItem('token')
+            }
+        });
+        const json = await response.json();
+        setNotes(json);
+    };
+
+
     const addNote = async ({ title, description, tag }) => {
         await fetch(`${host}/api/notes/add-note`, {
             method: 'POST',
@@ -55,8 +81,78 @@ const NotesState = (props) => {
         });
     };
 
+     const pinNote = async (id) => {
+        await fetch(`${host}/api/notes/pin-note/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': localStorage.getItem('token'),
+            },
+        });
+    };
+
+         const unPinNote = async (id) => {
+        await fetch(`${host}/api/notes/unpin-note/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': localStorage.getItem('token'),
+            },
+        });
+    };
+
+
+     const archiveNote = async (id) => {
+        await fetch(`${host}/api/notes/archive-note/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': localStorage.getItem('token'),
+            },
+        });
+    };
+
+     const unarchiveNote = async (id) => {
+        await fetch(`${host}/api/notes/unarchive-note/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': localStorage.getItem('token'),
+            },
+        });
+    };
+
+      const trashNote = async (id) => {
+        await fetch(`${host}/api/notes/trash-note/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': localStorage.getItem('token'),
+            },
+        });
+    };
+
+      const untrashNote = async (id) => {
+        await fetch(`${host}/api/notes/untrash-note/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': localStorage.getItem('token'),
+            },
+        });
+    };
     const deleteNote = async (id) => {
         await fetch(`${host}/api/notes/delete-note/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': localStorage.getItem('token'),
+            }
+        });
+    };
+
+     const emptyBin = async (id) => {
+        await fetch(`${host}/api/notes/empty-bin`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -74,7 +170,16 @@ const NotesState = (props) => {
             fetchNotes, 
             addNote, 
             updateNote, 
-            deleteNote 
+            deleteNote,
+            pinNote,
+            archiveNote,
+            unarchiveNote,
+            fetchArchivedNotes,
+            fetchTrashNotes,
+            trashNote,
+            unPinNote,
+            untrashNote,
+            emptyBin
         }}>
             {props.children}
         </NotesContext.Provider>

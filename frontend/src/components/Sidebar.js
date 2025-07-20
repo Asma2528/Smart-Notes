@@ -3,6 +3,7 @@ import { FaUserClock } from "react-icons/fa";
 import { MdLabelImportantOutline } from "react-icons/md";
 import { MdOutlineArchive } from "react-icons/md";
 import { GoTrash } from "react-icons/go";
+import { Link } from 'react-router-dom';
 
 function Sidebar({ isOpen, onClose }) {
   return (
@@ -24,49 +25,49 @@ function Sidebar({ isOpen, onClose }) {
   <div className="p-2 pt-20 overflow-y-auto h-full">
     <ul className="text-black dark:text-white space-y-2">
       <li>
-        <a
-          href="/"
+        <Link
+          to="/"
           className="flex items-center gap-3 px-3 py-2 rounded-2xl hover:bg-amber-200 dark:hover:bg-amber-300"
         >
           <FaRegStickyNote />
           Notes
-        </a>
+        </Link>
       </li>
       <li>
-        <a
-          href="/"
+        <Link
+          to="/"
           className="flex items-center gap-3 px-3 py-2 rounded-2xl hover:bg-amber-200 dark:hover:bg-amber-300"
         >
           <FaUserClock />
           Reminders
-        </a>
+        </Link>
       </li>
       <li>
-        <a
-          href="/"
+        <Link
+          to="/"
           className="flex items-center gap-3 px-3 py-2 rounded-2xl hover:bg-amber-200 dark:hover:bg-amber-300"
         >
           <MdLabelImportantOutline />
           Labels
-        </a>
+        </Link>
       </li>
       <li>
-        <a
-          href="/"
+        <Link
+          to="/archive-notes"
           className="flex items-center gap-3 px-3 py-2 rounded-2xl hover:bg-amber-200 dark:hover:bg-amber-300"
         >
           <MdOutlineArchive />
           Archive
-        </a>
+        </Link>
       </li>
       <li>
-        <a
-          href="/"
+        <Link
+          to="/trash-notes"
           className="flex items-center gap-3 px-3 py-2 rounded-2xl hover:bg-amber-200 dark:hover:bg-amber-300"
         >
           <GoTrash />
           Trash
-        </a>
+        </Link>
       </li>
     </ul>
   </div>

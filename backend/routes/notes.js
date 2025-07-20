@@ -8,8 +8,9 @@ const { body, validationResult } = require('express-validator');
 // Route to fetch all notes
 router.get('/fetch-all-notes', fetchuser, async (req, res) => {
     try {
-        const notes = await Note.find({ user: req.user.id });
-        
+        const notes = await Note.find({ user: req.user.id ,  trashed: false, 
+            archived: false });
+
         res.json(notes);
 
 
@@ -19,6 +20,35 @@ router.get('/fetch-all-notes', fetchuser, async (req, res) => {
     }
 });
 
+// Route to fetch archived notes
+router.get('/fetch-archived-notes', fetchuser, async (req, res) => {
+    try {
+        const notes = await Note.find({ user: req.user.id ,  trashed: false, 
+            archived: true });
+
+        res.json(notes);
+
+
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).send("Internal Server Error");
+    }
+});
+
+// Route to fetch trash notes
+router.get('/fetch-trash-notes', fetchuser, async (req, res) => {
+    try {
+        const notes = await Note.find({ user: req.user.id ,  trashed: true, 
+            archived: false });
+
+        res.json(notes);
+
+
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).send("Internal Server Error");
+    }
+});
 // Route to add a new note
 router.post('/add-note', fetchuser, [
     body('title', 'Enter a valid title').isLength({ min: 3 }),
@@ -33,14 +63,14 @@ router.post('/add-note', fetchuser, [
     try {
         const { title, description, tag } = req.body;
 
-         const note = new Note({
+        const note = new Note({
             title,
             description,
             tag,
-            user: req.user.id 
+            user: req.user.id
         });
 
-      const savedNote = await note.save(); 
+        const savedNote = await note.save();
         res.json(savedNote);
 
     } catch (error) {
@@ -79,6 +109,140 @@ router.put('/update-note/:id', fetchuser, async (req, res) => {
     }
 });
 
+// Route to pin an existing note
+router.put('/pin-note/:id', fetchuser, async (req, res) => {
+    try {
+        // Find the note to be pinned and update it
+        let note = await Note.findById(req.params.id);
+        if (!note) {
+            return res.status(404).send("Note Not Found");
+        }
+
+        if (note.user.toString() !== req.user.id) {
+            return res.status(401).send("Not Allowed");
+        }
+
+        note = await Note.findByIdAndUpdate(req.params.id, { $set: { pinned: true } }, { new: true });
+        res.json({ note });
+
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).send("Internal Server Error");
+    }
+});
+
+// Route to unpin an existing note
+router.put('/unpin-note/:id', fetchuser, async (req, res) => {
+    try {
+        // Find the note to be unpinned and update it
+        let note = await Note.findById(req.params.id);
+        if (!note) {
+            return res.status(404).send("Note Not Found");
+        }
+
+        if (note.user.toString() !== req.user.id) {
+            return res.status(401).send("Not Allowed");
+        }
+
+        note = await Note.findByIdAndUpdate(req.params.id, { $set: { pinned: false } }, { new: true });
+        res.json({ note });
+
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).send("Internal Server Error");
+    }
+});
+
+
+// Route to trash an existing note
+router.put('/trash-note/:id', fetchuser, async (req, res) => {
+    try {
+        // Find the note to be marked as trash and update it
+        let note = await Note.findById(req.params.id);
+        if (!note) {
+            return res.status(404).send("Note Not Found");
+        }
+
+        if (note.user.toString() !== req.user.id) {
+            return res.status(401).send("Not Allowed");
+        }
+
+        note = await Note.findByIdAndUpdate(req.params.id, { $set: { trashed: true } }, { new: true });
+        res.json({ note });
+
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).send("Internal Server Error");
+    }
+});
+
+// Route to untrash an existing note
+router.put('/untrash-note/:id', fetchuser, async (req, res) => {
+    try {
+        // Find the note to be marked as untrash and update it
+        let note = await Note.findById(req.params.id);
+        if (!note) {
+            return res.status(404).send("Note Not Found");
+        }
+
+        if (note.user.toString() !== req.user.id) {
+            return res.status(401).send("Not Allowed");
+        }
+
+        note = await Note.findByIdAndUpdate(req.params.id, { $set: { trashed: false } }, { new: true });
+        res.json({ note });
+
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).send("Internal Server Error");
+    }
+});
+
+// Route to archive an existing note
+router.put('/archive-note/:id', fetchuser, async (req, res) => {
+    try {
+        // Find the note to be archive and update it
+        let note = await Note.findById(req.params.id);
+        if (!note) {
+            return res.status(404).send("Note Not Found");
+        }
+
+        if (note.user.toString() !== req.user.id) {
+            return res.status(401).send("Not Allowed");
+        }
+
+        note = await Note.findByIdAndUpdate(req.params.id, { $set: { archived: true } }, { new: true });
+        res.json({ note });
+
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).send("Internal Server Error");
+    }
+});
+
+
+// Route to archive an existing note
+router.put('/unarchive-note/:id', fetchuser, async (req, res) => {
+    try {
+        // Find the note to be archive and update it
+        let note = await Note.findById(req.params.id);
+        if (!note) {
+            return res.status(404).send("Note Not Found");
+        }
+
+        if (note.user.toString() !== req.user.id) {
+            return res.status(401).send("Not Allowed");
+        }
+
+        note = await Note.findByIdAndUpdate(req.params.id, { $set: { archived: false } }, { new: true });
+        res.json({ note });
+
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).send("Internal Server Error");
+    }
+});
+
 // Route to delete a note
 router.delete('/delete-note/:id', fetchuser, async (req, res) => {
     try {
@@ -95,6 +259,25 @@ router.delete('/delete-note/:id', fetchuser, async (req, res) => {
         note = await Note.findByIdAndDelete(req.params.id);
         res.json({ "Success": "Note has been deleted", note: note });
 
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).send("Internal Server Error");
+    }
+});
+
+// Route to delete all trash notes
+router.delete('/empty-bin', fetchuser, async (req, res) => {
+    try {
+        // Delete all trashed notes that belong to the current user
+        const result = await Note.deleteMany({
+            user: req.user.id,
+            trashed: true
+        });
+
+        res.json({
+            success: true,
+            message: `${result.deletedCount} trashed notes deleted.`
+        });
     } catch (error) {
         console.error(error.message);
         return res.status(500).send("Internal Server Error");
