@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 function Home(props) {
   const navigate = useNavigate();
   let context = useContext(notesContext);
-  const { viewNotesMode, notes, fetchNotes, updateNote, archiveNote, pinNote, trashNote, unPinNote } = context;
+  const { viewNotesMode, notes, fetchNotes, updateNote, clearReminder, reminderNote, archiveNote, pinNote, trashNote, unPinNote } = context;
 
   const [loading, setLoading] = useState(true);
 
@@ -62,6 +62,8 @@ function Home(props) {
                       pinNote={pinNote}
                       unPinNote={unPinNote}
                       trashNote={trashNote}
+                      reminderNote={reminderNote}
+                      clearReminder={clearReminder}
                     />
                   </div>
                 ))}
@@ -77,7 +79,9 @@ function Home(props) {
                       updateNote={updateNote}
                       archiveNote={archiveNote}
                       pinNote={pinNote}
+                          clearReminder={clearReminder}
                       unPinNote={unPinNote}
+                      reminderNote={reminderNote}
                       trashNote={trashNote}
                     />
                   </div>
@@ -103,8 +107,10 @@ function Home(props) {
                   setAlert={props.setAlert}
                   fetchNotes={fetchNotes}
                   updateNote={updateNote}
+                  reminderNote={reminderNote}
                   archiveNote={archiveNote}
                   pinNote={pinNote}
+                      clearReminder={clearReminder}
                   trashNote={trashNote}
                 />
               </div>
@@ -120,10 +126,12 @@ function Home(props) {
                 <NoteItem
                   note={note}
                   setAlert={props.setAlert}
+                      clearReminder={clearReminder}
                   fetchNotes={fetchNotes}
                   updateNote={updateNote}
                   archiveNote={archiveNote}
                   pinNote={pinNote}
+                  reminderNote={reminderNote}
                   trashNote={trashNote}
                 />
               </div>

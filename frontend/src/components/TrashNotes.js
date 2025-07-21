@@ -67,7 +67,7 @@ function TrashNotes(props) {
             <h3 className="text-black">
                 Notes in the Recycle Bin are deleted after 7 days.
             </h3>
-            <button onClick={handleEmptyBin} className="my-5 px-2 bg-amber-500 hover:bg-amber-600 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:text-white font-semibold py-2 rounded-md transition-colors duration-200">
+            <button onClick={handleEmptyBin} className="my-5 px-2 bg-amber-500 hover:bg-amber-600 dark:bg-amber-500 dark:hover:bg-amber-600 dark:text-white font-semibold py-2 rounded-md transition-colors duration-200">
                 Empty Bin
             </button>
             {notes.length > 0 ? (

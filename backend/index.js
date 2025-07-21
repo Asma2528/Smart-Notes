@@ -4,6 +4,7 @@ require('dotenv').config()
 var cors = require('cors')
 
 connectToMongo();
+require('./cronJobs/deleteTrashNotes'); 
 
 const app = express()
 app.use(cors())

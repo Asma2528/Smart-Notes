@@ -30,6 +30,10 @@ const NotesSchema = new Schema({
     type: Boolean,
     default: false
   },
+     trashedAt: {
+        type: Date,
+          default: null
+    },
   reminder: {
     type: Date,
     default: null

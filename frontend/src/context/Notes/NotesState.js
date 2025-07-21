@@ -6,6 +6,7 @@ const NotesState = (props) => {
     const notesInitial = [];
 
     const [notes, setNotes] = useState(notesInitial);
+    const [reminders, setReminders] = useState([]);
     const [viewNotesMode, setViewNotesMode] = useState("grid");
 
     // Detect mobile view and set to list mode
@@ -57,6 +58,18 @@ const NotesState = (props) => {
         const json = await response.json();
         setNotes(json);
     };
+
+      const fetchReminders = async () => {
+  const response = await fetch(`${host}/api/notes/fetch-reminders`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'auth-token': localStorage.getItem('token')
+    }
+  });
+  const json = await response.json();
+  setReminders(json); 
+};
 
 
     const addNote = async ({ title, description, tag }) => {
@@ -132,6 +145,27 @@ const NotesState = (props) => {
         });
     };
 
+     const reminderNote = async (id,reminderDate) => {
+        await fetch(`${host}/api/notes/set-reminder/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'auth-token': localStorage.getItem('token')
+        },
+        body: JSON.stringify({ reminder: reminderDate })
+        });
+    };
+
+     const clearReminder = async (id,reminderDate) => {
+        await fetch(`${host}/api/notes/clear-reminder/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'auth-token': localStorage.getItem('token')
+        },
+        });
+    };
+
       const untrashNote = async (id) => {
         await fetch(`${host}/api/notes/untrash-note/${id}`, {
             method: 'PUT',
@@ -173,11 +207,15 @@ const NotesState = (props) => {
             deleteNote,
             pinNote,
             archiveNote,
+            reminderNote,
             unarchiveNote,
             fetchArchivedNotes,
+            fetchReminders,
+             reminders,
             fetchTrashNotes,
             trashNote,
             unPinNote,
+            clearReminder,
             untrashNote,
             emptyBin
         }}>

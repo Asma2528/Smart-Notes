@@ -19,7 +19,7 @@ JWT Authentication
 
 
 Smart notes -
-reminder
 labels
-empty bin
 
+
+reminder - for clear reminder confirmation

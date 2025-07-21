@@ -35,7 +35,7 @@ function Sidebar({ isOpen, onClose }) {
       </li>
       <li>
         <Link
-          to="/"
+          to="/reminders"
           className="flex items-center gap-3 px-3 py-2 rounded-2xl hover:bg-amber-200 dark:hover:bg-amber-300"
         >
           <FaUserClock />

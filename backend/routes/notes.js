@@ -157,17 +157,29 @@ router.put('/unpin-note/:id', fetchuser, async (req, res) => {
 // Route to trash an existing note
 router.put('/trash-note/:id', fetchuser, async (req, res) => {
     try {
-        // Find the note to be marked as trash and update it
+        // Find the note
         let note = await Note.findById(req.params.id);
         if (!note) {
             return res.status(404).send("Note Not Found");
         }
 
+        // Authorization check
         if (note.user.toString() !== req.user.id) {
             return res.status(401).send("Not Allowed");
         }
 
-        note = await Note.findByIdAndUpdate(req.params.id, { $set: { trashed: true } }, { new: true });
+        // Mark as trashed and set trashedAt
+        note = await Note.findByIdAndUpdate(
+            req.params.id,
+            {
+                $set: {
+                    trashed: true,
+                    trashedAt: new Date()
+                }
+            },
+            { new: true }
+        );
+
         res.json({ note });
 
     } catch (error) {
@@ -175,21 +187,34 @@ router.put('/trash-note/:id', fetchuser, async (req, res) => {
         return res.status(500).send("Internal Server Error");
     }
 });
+
 
 // Route to untrash an existing note
 router.put('/untrash-note/:id', fetchuser, async (req, res) => {
     try {
-        // Find the note to be marked as untrash and update it
+        // Find the note
         let note = await Note.findById(req.params.id);
         if (!note) {
             return res.status(404).send("Note Not Found");
         }
 
+        // Authorization check
         if (note.user.toString() !== req.user.id) {
             return res.status(401).send("Not Allowed");
         }
 
-        note = await Note.findByIdAndUpdate(req.params.id, { $set: { trashed: false } }, { new: true });
+        // Unmark as trashed and clear trashedAt
+        note = await Note.findByIdAndUpdate(
+            req.params.id,
+            {
+                $set: {
+                    trashed: false,
+                    trashedAt: null
+                }
+            },
+            { new: true }
+        );
+
         res.json({ note });
 
     } catch (error) {
@@ -197,6 +222,7 @@ router.put('/untrash-note/:id', fetchuser, async (req, res) => {
         return res.status(500).send("Internal Server Error");
     }
 });
+
 
 // Route to archive an existing note
 router.put('/archive-note/:id', fetchuser, async (req, res) => {
@@ -283,5 +309,71 @@ router.delete('/empty-bin', fetchuser, async (req, res) => {
         return res.status(500).send("Internal Server Error");
     }
 });
+
+router.put('/set-reminder/:id', fetchuser, async (req, res) => {
+  const { reminder } = req.body;
+
+  if (!reminder) {
+    return res.status(400).json({ error: "Reminder time is required" });
+  }
+
+  if (new Date(reminder) < new Date()) {
+  return res.status(400).json({ error: "Reminder time must be in the future" });
+}
+
+  try {
+    let note = await Note.findById(req.params.id);
+    if (!note) return res.status(404).json({ error: "Note not found" });
+
+    if (note.user.toString() !== req.user.id) {
+      return res.status(401).json({ error: "Not authorized" });
+    }
+
+    note.reminder = new Date(reminder);
+    await note.save();
+
+    res.json({ success: true, message: "Reminder set", note });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+
+router.put('/clear-reminder/:id', fetchuser, async (req, res) => {
+ 
+  try {
+    let note = await Note.findById(req.params.id);
+    if (!note) return res.status(404).json({ error: "Note not found" });
+
+    if (note.user.toString() !== req.user.id) {
+      return res.status(401).json({ error: "Not authorized" });
+    }
+
+    note.reminder = null;
+    await note.save();
+
+    res.json({ success: true, message: "Reminder cleared", note });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+router.get('/fetch-reminders', fetchuser, async (req, res) => {
+  try {
+    const notesWithReminders = await Note.find({
+      user: req.user.id,
+      reminder: { $ne: null }
+    }).sort({ reminder: 1 });
+
+    res.json(notesWithReminders);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+
 
 module.exports = router;
