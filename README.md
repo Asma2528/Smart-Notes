@@ -1,9 +1,11 @@
 # 📘 SmartNotes
 
-SmartNotes is a full-stack note-taking application built with the **MERN stack** (MongoDB, Express.js, React.js, Node.js). It allows users to manage their personal notes with features like pinning, archiving, trashing, setting reminders, and automatic deletion after 7 days in the trash.
+SmartNotes is a full-stack note-taking application built with the **MERN stack** (MongoDB, Express.js, React.js, Node.js). It allows users to create, tag, and manage personal notes securely with JWT-based authentication.
+
 
 ✨ Features
-✅ Create, read, update, and delete notes
+
+🧠 Create, Read, Update, Delete (CRUD) on Notes
 
 📌 Pin/unpin notes
 
@@ -17,7 +19,8 @@ SmartNotes is a full-stack note-taking application built with the **MERN stack**
 
 🔐 Authenticated user access (JWT)
 
-🌙 Light/ Dark Theme
+🌗 Light/Dark Mode
+
 
 
 ### 🖥️ Frontend
@@ -41,4 +44,29 @@ SmartNotes is a full-stack note-taking application built with the **MERN stack**
 - **node-cron** – Scheduled background jobs
 - **winston** – Logging
 
+---
+📸 UI Screenshots
+Coming soon...
+
+---
+
+✨ Future Enhancements
+
+📎 Image Upload support
+
+☑️ Checklist / Tick Boxes
+
+🖋️ Rich Text Formatting (H1, H2, Bold, Italic, Underline)
+
+🎨 Change background color of note
+
+👥 Add collaborators to notes
+
+🎨 Draw and embed drawings
+
+📤 Export notes to Google Docs
+
+📑 Version history & rollback previous versions
+
+📥 Download note versions in .txt
 
